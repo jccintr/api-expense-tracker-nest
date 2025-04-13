@@ -14,6 +14,4 @@ export class CreateUserDto {
     @IsNotEmpty({message:'A senha deve ser informada'})
     password: string;
 
-
-
 }

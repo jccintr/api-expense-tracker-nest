@@ -32,6 +32,10 @@ export class UsersService {
     return `This action returns all users`;
   }
 
+  async findByEmail(email: string){
+    return await this.databaseService.user.findUnique({ where: { email } });
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} user`;
   }
