@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { DatabaseService } from 'src/database/database.service';
 import { BadRequestException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+
+
 
 @Injectable()
 export class UsersService {
@@ -32,12 +34,54 @@ export class UsersService {
     return `This action returns all users`;
   }
 
+  async findAllPaginated(page: number = 1, size: number = 10) {
+   
+    const skip = (page - 1) * size;
+    
+  
+    const [data, total] = await Promise.all([
+      this.databaseService.user.findMany({
+        skip,
+        take: size,
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+        orderBy: {
+          name: 'asc', // ou 'desc' para ordem decrescente
+        },
+      }),
+      this.databaseService.user.count(),
+    ]);
+  
+    return {
+      data,
+      total,
+      page,
+      lastPage: Math.ceil(total / size),
+    };
+  }
+
+
   async findByEmail(email: string){
     return await this.databaseService.user.findUnique({ where: { email } });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+ async findOne(id: number) {
+    const user = await this.databaseService.user.findUnique({where:{id}, select: {
+      id: true,
+      name: true,
+      email: true,
+      createdAt: true,
+      updatedAt: true,
+    },});
+
+    if (!user) throw new NotFoundException(`Ressource not found. ID ${id}`);
+    
+    return user
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

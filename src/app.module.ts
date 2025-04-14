@@ -4,9 +4,12 @@ import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [DatabaseModule, UsersModule, AuthModule],
+  imports: [DatabaseModule, UsersModule, AuthModule,ConfigModule.forRoot({
+    isGlobal: true, // Torna o módulo disponível globalmente
+  }),],
   controllers: [AppController],
   providers: [AppService],
 })
