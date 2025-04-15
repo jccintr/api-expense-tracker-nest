@@ -31,7 +31,7 @@ export class AccountsService {
 
   async findOne(id: number,userId:number) {
 
-    const account = await this.databaseService.account.findUnique({where:{id},select:{id:true,name:true,userId:true}});
+    const account = await this.databaseService.account.findUnique({where:{id},select:{id:true,name:true,userId:true,createdAt:true,updatedAt:true}});
 
     if (!account) throw new NotFoundException(`Ressource not found. ID ${id}`);
 
@@ -51,8 +51,6 @@ export class AccountsService {
     const updatedAccount = await this.databaseService.account.update({where:{id},data:updateAccountDto});
     return updatedAccount
 
-   
-   
   }
 
   async remove(id: number,userId:number) {

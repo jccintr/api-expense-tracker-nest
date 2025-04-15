@@ -15,6 +15,7 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
+  
   @Get()
   findAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,

@@ -6,11 +6,12 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { AccountsModule } from './accounts/accounts.module';
+import { CategoriesModule } from './categories/categories.module';
 
 @Module({
   imports: [DatabaseModule, UsersModule, AuthModule,ConfigModule.forRoot({
     isGlobal: true, // Torna o módulo disponível globalmente
-  }), AccountsModule,],
+  }), AccountsModule, CategoriesModule,],
   controllers: [AppController],
   providers: [AppService],
 })

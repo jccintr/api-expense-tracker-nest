@@ -1,5 +1,5 @@
 import { IsString,IsNotEmpty } from "class-validator";
-import { User } from "generated/prisma";
+
 
 export class CreateAccountDto {
 
