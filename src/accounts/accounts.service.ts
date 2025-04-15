@@ -1,15 +1,13 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable,NotFoundException } from '@nestjs/common';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
 import { DatabaseService } from 'src/database/database.service';
-import { NotFoundException } from '@nestjs/common';
+
 
 @Injectable()
 export class AccountsService {
 
-  constructor(private readonly databaseService: DatabaseService) {
-
-  }
+  constructor(private readonly databaseService: DatabaseService) {}
   
   async create(createAccountDto: CreateAccountDto,userId: number) {
    

@@ -142,6 +142,17 @@ exports.Prisma.CategoryScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.TransactionScalarFieldEnum = {
+  id: 'id',
+  description: 'description',
+  amount: 'amount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  accountId: 'accountId',
+  categoryId: 'categoryId',
+  userId: 'userId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -156,7 +167,8 @@ exports.Prisma.QueryMode = {
 exports.Prisma.ModelName = {
   User: 'User',
   Account: 'Account',
-  Category: 'Category'
+  Category: 'Category',
+  Transaction: 'Transaction'
 };
 
 /**
