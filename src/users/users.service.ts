@@ -30,10 +30,11 @@ export class UsersService {
 
   }
 
+  /*
   findAll() {
     return `This action returns all users`;
   }
-
+*/
   async findAllPaginated(page: number = 1, size: number = 10) {
    
     const skip = (page - 1) * size;
@@ -84,11 +85,36 @@ export class UsersService {
     return user
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    const existingUser = await this.databaseService.user.findUnique({ where: { id } });
+  
+    if (!existingUser) throw new NotFoundException(`Ressource not found. ID ${id}`);
+  
+    if (updateUserDto.password) {
+      const salt = await bcrypt.genSalt();
+      updateUserDto.password = await bcrypt.hash(updateUserDto.password, salt);
+    }
+  
+    const { password, ...result } = await this.databaseService.user.update({
+      where: { id },
+      data: updateUserDto,
+    });
+  
+    return result;
   }
+  
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number) {
+    const existingUser = await this.databaseService.user.findUnique({ where: { id } });
+  
+    if (!existingUser) throw new NotFoundException(`Ressource not found. ID ${id}`);
+  
+    await this.databaseService.user.delete({ where: { id } });
+  
+    return { message: `Usuário ${id} removido com sucesso.` };
   }
+  
+
+
+ 
 }
