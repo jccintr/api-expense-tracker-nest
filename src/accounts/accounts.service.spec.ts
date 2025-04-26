@@ -30,6 +30,10 @@ describe('AccountsService', () => {
     service = module.get<AccountsService>(AccountsService);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
@@ -159,7 +163,46 @@ describe('AccountsService', () => {
   
     });
 
-
+    describe('remove()', () => {
+      it('deve remover a conta', async () => {
+        const id = 1;
+        const userId:number = 1;
+        const mockAccount = {id, name: 'Account 1',userId: 1,createdAt: new Date(),updatedAt: new Date()};
+    
+        mockDatabaseService.account.findUnique.mockResolvedValue(mockAccount);
+        mockDatabaseService.account.delete.mockResolvedValue(mockAccount);
+    
+        const result = await service.remove(id,userId);
+    
+        expect(mockDatabaseService.account.findUnique).toHaveBeenCalledWith({ where: { id } });
+        expect(mockDatabaseService.account.delete).toHaveBeenCalledWith({ where: { id } });
+        expect(result).toEqual({ message: `Conta ${id} removida com sucesso.` });
+      });
+    
+      it('deve lançar NotFoundException se a conta não existir', async () => {
+        const id = 1000;
+        const userId:number = 1;
+        mockDatabaseService.account.findUnique.mockResolvedValue(null);
+    
+        await expect(service.remove(id,userId)).rejects.toThrow(NotFoundException);
+        expect(mockDatabaseService.account.findUnique).toHaveBeenCalledWith({ where: { id } });
+        expect(mockDatabaseService.account.delete).not.toHaveBeenCalled();
+      });
+  
+      it('deve lançar ForbidenException se a conta não pertencer ao usuário', async () => {
+        const id = 1;
+        const userId:number = 2;
+        const mockAccount = {id, name: 'Account 1',userId: 1,createdAt: new Date(),updatedAt: new Date()};
+  
+        mockDatabaseService.account.findUnique.mockResolvedValue(mockAccount);
+        mockDatabaseService.account.delete.mockResolvedValue(mockAccount);
+    
+        await expect(service.remove(id,userId)).rejects.toThrow(ForbiddenException);
+        expect(mockDatabaseService.account.findUnique).toHaveBeenCalledWith({ where: { id } });
+        expect(mockDatabaseService.account.delete).not.toHaveBeenCalled();
+      });
+      
+    });
 
 
 });
