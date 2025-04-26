@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
-
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
@@ -22,21 +21,7 @@ describe('UsersController', () => {
     remove: jest.Mock,
   };
 
-  /*
-  const mockUsersService = {
-    create: jest.fn(dto => ({ id: 1, ...dto })),
-    findAllPaginated: jest.fn(() => ({
-      data: [],
-      total: 0,
-      page: 1,
-      lastPage: 1,
-    })),
-    findOne: jest.fn(id => ({ id, name: 'Test', email: 'test@example.com' })),
-    update: jest.fn((id, dto) => ({ id, ...dto })),
-    remove: jest.fn(id => ({ message: 'Usuário removido com sucesso' })),
-    
-  };
-*/
+  
 
   // Mock simples para AuthGuard
   const mockAuthGuard = {

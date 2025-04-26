@@ -61,6 +61,7 @@ export class AccountsService {
 
     await this.databaseService.account.delete({where:{id}});
 
-    return {status:'sucesso'}
+ 
+    return { message: `Conta ${id} removido com sucesso.` };
   }
 }

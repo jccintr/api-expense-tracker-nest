@@ -63,6 +63,7 @@ export class CategoriesService {
 
     await this.databaseService.category.delete({where:{id}});
 
-    return {status:'sucesso'}
+   
+    return { message: `Categoria ${id} removida com sucesso.` };
   }
 }

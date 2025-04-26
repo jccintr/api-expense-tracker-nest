@@ -3,7 +3,7 @@ import { UsersService } from './users.service';
 import { DatabaseService } from 'src/database/database.service';
 import { BadRequestException } from '@nestjs/common';
 import { NotFoundException } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
+
 
 
 
